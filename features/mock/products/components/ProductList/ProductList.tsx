@@ -16,7 +16,7 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
           {productList.map((p) => (
             <div
               key={p.id}
-              className="border-2 border-gray-300 rounded-lg shadow-md p-6 bg-gray-50 hover:shadow-lg hover:border-blue-500 transition-shadow"
+              className="border-2 border-gray-300 rounded-lg shadow-md p-6 bg-gray-50 hover:shadow-lg hover:border-blue-500 transition-all transform hover:translate-x-[-5px] hover:translate-y-[-5px]"
             >
               {/* 商品情報の表示 */}
               <div>
