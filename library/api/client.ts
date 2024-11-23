@@ -13,6 +13,7 @@ class GetRequest {
 
   /**
    * APIリクエストを送信する共通メソッド
+   * cacheオプションには「no-store」を指定しているため、キャッシュは行わず常に最新のデータを取得します。
    *
    * @param {string} url   - リクエスト先のURL
    * @returns {Promise<T>} - APIのレスポンスデータ。
@@ -22,6 +23,7 @@ class GetRequest {
     const response = await fetch(url, {
       method: 'GET',
       headers: this.headers,
+      cache: 'no-store',
     });
 
     if (!response.ok) {
