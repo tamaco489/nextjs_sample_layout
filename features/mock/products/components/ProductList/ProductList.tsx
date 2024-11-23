@@ -44,14 +44,16 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
               className="border-2 border-gray-300 rounded-lg shadow-md p-6 bg-gray-50 hover:shadow-lg hover:border-blue-500 transition-all transform hover:translate-x-[-5px] hover:translate-y-[-5px]"
             >
               {/* 商品の画像 */}
-              <div className="mb-4 w-[300px] h-[200px]">
-                <Image
-                  src={p.imageUrl || '/mock/products/no_contents.png'}
-                  alt={p.name}
-                  width={300}
-                  height={200}
-                  className="w-full h-full rounded-lg object-cover"
-                />
+              <div className="flex justify-center items-center mb-8">
+                <div className="w-[300px] h-[200px]">
+                  <Image
+                    src={p.imageUrl || '/mock/products/no_contents.png'}
+                    alt={p.name}
+                    width={300}
+                    height={200}
+                    className="w-full h-full rounded-lg object-cover"
+                  />
+                </div>
               </div>
 
               {/* 商品情報の表示 */}
@@ -69,10 +71,6 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
                 >
                   {p.inStock ? '在庫あり' : '在庫切れ'}
                 </p>
-                <p className="text-gray-600 mb-2">
-                  <span className="font-bold">カテゴリ:</span> {p.category}
-                </p>
-                <p className="text-sm text-gray-500 mb-4">{p.description}</p>
 
                 {/* ボタン */}
                 <button
@@ -97,6 +95,21 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
             className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
             onClick={handleModalClick} // 内部クリックではモーダルを閉じない
           >
+            {/* 商品の画像 */}
+            <div className="flex justify-center items-center mb-8">
+              <div className="w-[300px] h-[200px]">
+                <Image
+                  src={
+                    selectedProduct.imageUrl || '/mock/products/no_contents.png'
+                  }
+                  alt={selectedProduct.name}
+                  width={300}
+                  height={200}
+                  className="w-full h-full rounded-lg object-cover"
+                />
+              </div>
+            </div>
+
             <h3 className="text-xl font-semibold mb-4">
               {selectedProduct.name}
             </h3>
