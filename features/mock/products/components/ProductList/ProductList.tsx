@@ -13,14 +13,20 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
     null,
   );
 
-  // モーダルを開閉処理
+  // モーダルを開く
   const openModal = (product: MockProduct) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
   };
+  // モーダルを閉じる ※モーダルウィンドウ中の「閉じる」ボタン、及びモーダルウィンドウ外を押下された時にも呼び出される想定
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
+  };
+  // 表示されたモーダル自体をクリックされた場合はクリックイベントの伝搬を停止する
+  // これがないと「closeModal」を親クラスに指定しているためモーダル内部をクリックされた場合でも閉じられてしまうため
+  const handleModalClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
   };
 
   return (
@@ -71,8 +77,14 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
 
       {/* 「詳細を見る」を押下された際に表示するモーダル画面 */}
       {isModalOpen && selectedProduct && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <div
+          className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50"
+          onClick={closeModal} // 背景クリックでモーダルを閉じる
+        >
+          <div
+            className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
+            onClick={handleModalClick} // 内部クリックではモーダルを閉じない
+          >
             <h3 className="text-xl font-semibold mb-4">
               {selectedProduct.name}
             </h3>
@@ -92,6 +104,7 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
               {selectedProduct.description}
             </p>
 
+            {/* モーダル閉じるボタン */}
             <button
               className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500 transition"
               onClick={closeModal}
