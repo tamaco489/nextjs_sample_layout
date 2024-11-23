@@ -28,7 +28,8 @@ const mockProductList: MockProduct[] = [
     inStock: true,
     category: 'Electronics',
     description: 'A sleek smartphone with an amazing camera.',
-    imageUrl: '/mock/products/10000003.jpg',
+    // imageUrl: '/mock/products/10000003.jpg',
+    imageUrl: '', // frontで「no_content」の画像を表示させる
   },
 ];
 
