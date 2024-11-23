@@ -21,13 +21,20 @@ const mockProductList: MockProduct[] = [
     description: 'Noise-canceling headphones.',
     imageUrl: 'https://example.com/headphones.jpg',
   },
+  {
+    id: 3,
+    name: 'Smartphone',
+    price: 800,
+    inStock: true,
+    category: 'Electronics',
+    description: 'A sleek smartphone with an amazing camera.',
+    imageUrl: 'https://example.com/smartphone.jpg',
+  },
 ];
 
 // GET api/v1/products
 export async function GET(request: NextRequest) {
   const authToken = request.headers.get('Authorization');
-  console.log('[info] Authorization:', authToken);
-
   if (authToken !== `Bearer ${API_KEY}`) {
     return NextResponse.json(
       { error: 'Missing Authorization token' },
