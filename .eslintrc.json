@@ -1,3 +1,27 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    // 基本的にはairbnbのルールに準拠しているが、除外したい場合配下のように定義
+    "no-var": ["off"], // varの宣言エラーを無視する
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.test.{js,ts,jsx,tsx}", "app/api/**"]
+      }
+    ]
+  },
+  "extends": ["next/core-web-vitals", "next/typescript", "airbnb-typescript"]
 }
