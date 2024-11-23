@@ -10,7 +10,7 @@ const mockProductList: MockProduct[] = [
     inStock: true,
     category: 'Electronics',
     description: 'A powerful laptop with great performance.',
-    imageUrl: 'https://example.com/laptop.jpg',
+    imageUrl: '/mock/products/10000001.jpg',
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const mockProductList: MockProduct[] = [
     inStock: false,
     category: 'Accessories',
     description: 'Noise-canceling headphones.',
-    imageUrl: 'https://example.com/headphones.jpg',
+    imageUrl: '/mock/products/10000002.png',
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const mockProductList: MockProduct[] = [
     inStock: true,
     category: 'Electronics',
     description: 'A sleek smartphone with an amazing camera.',
-    imageUrl: 'https://example.com/smartphone.jpg',
+    imageUrl: '/mock/products/10000003.jpg',
   },
 ];
 

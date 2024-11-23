@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { MockProduct } from '@/app/types/products';
+import Image from 'next/image';
 
 interface MockProductListProps {
   productList: MockProduct[];
@@ -42,6 +43,17 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
               key={p.id}
               className="border-2 border-gray-300 rounded-lg shadow-md p-6 bg-gray-50 hover:shadow-lg hover:border-blue-500 transition-all transform hover:translate-x-[-5px] hover:translate-y-[-5px]"
             >
+              {/* 商品の画像 */}
+              <div className="mb-4 w-[300px] h-[200px]">
+                <Image
+                  src={p.imageUrl || '/mock/products/no_contents.png'}
+                  alt={p.name}
+                  width={300}
+                  height={200}
+                  className="w-full h-full rounded-lg object-cover"
+                />
+              </div>
+
               {/* 商品情報の表示 */}
               <div>
                 <h3 className="text-lg font-semibold mb-3 text-gray-800">
