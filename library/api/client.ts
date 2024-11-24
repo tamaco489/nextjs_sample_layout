@@ -1,5 +1,6 @@
 import { API_HOST, API_REQUEST_OPTIONS } from '@/constants/api';
-import { HTTPError } from '@/library/api/error';
+import HTTPError from '@/library/api/error';
+// import { HTTPError } from '@/library/api/error';
 
 /**
  * GET リクエストを送信するクラス
@@ -27,10 +28,20 @@ class GetRequest {
     });
 
     if (!response.ok) {
-      throw new HTTPError(
-        response.status,
-        `HTTP error Status: ${response.status}`,
-      );
+      // エラーメッセージを取得するためのヘルパー関数を定義
+      const getErrorMessage = async (): Promise<string> => {
+        try {
+          const errorData = await response.json();
+          return errorData.error || 'Unknown error';
+        } catch {
+          return 'Unknown error';
+        }
+      };
+
+      // ヘルパー関数でエラーメッセージを取得
+      const errorMessage = await getErrorMessage();
+
+      throw new HTTPError(response.status, errorMessage);
     }
 
     return response.json() as Promise<T>;
@@ -44,26 +55,6 @@ class GetRequest {
    * @throws {HTTPError}   - HTTPリクエストが成功しなかった場合にエラーをスローします。
    */
   public async simple<T>(path: string): Promise<T> {
-    const url = `${API_HOST}${path}`;
-    return this.fetchData<T>(url);
-  }
-
-  /**
-   * パスパラメータを使ったGETリクエストを送信するメソッド
-   *
-   * @param {string} path                                - APIエンドポイントのパス。
-   * @param {Record<string, string | number>} pathParams - パスパラメータを含むオブジェクト。
-   * @returns {Promise<T>}                               - APIのレスポンスデータ。
-   * @throws {HTTPError}                                 - HTTPリクエストが成功しなかった場合にエラーをスローします。
-   */
-  public async withPathParameters<T>(
-    path: string,
-    pathParams: Record<string, string | number>,
-  ): Promise<T> {
-    Object.entries(pathParams).forEach(([key, value]) => {
-      path = path.replace(`:${key}`, encodeURIComponent(value));
-    });
-
     const url = `${API_HOST}${path}`;
     return this.fetchData<T>(url);
   }

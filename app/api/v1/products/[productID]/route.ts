@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { MockProduct } from '@/app/types/products';
 import { verifyAuthorizationHeader } from '@/library/api/validate';
 
-const mockProductList: MockProduct[] = [
+const mockProducts: MockProduct[] = [
   {
     id: 10000001,
     name: 'Laptop',
@@ -28,16 +28,31 @@ const mockProductList: MockProduct[] = [
     inStock: true,
     category: 'Electronics',
     description: 'A sleek smartphone with an amazing camera.',
-    // imageUrl: '/mock/products/10000003.jpg',
     imageUrl: '', // frontで「no_content」の画像を表示させる
   },
 ];
 
-// GET api/v1/products
-export async function GET(request: NextRequest) {
+// GET api/v1/products/{productID}
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { productID: string } },
+) {
   // 認証ヘッダーの検証
   const authError: NextResponse | null = verifyAuthorizationHeader(request);
   if (authError) return authError;
 
-  return NextResponse.json(mockProductList, { status: 200 });
+  // 不正なIDでないかの検証
+  const productID = Number(params.productID);
+  if (isNaN(productID)) {
+    return NextResponse.json({ error: 'Invalid product ID' }, { status: 400 });
+  }
+
+  // 存在する商品かの検証
+  const product = mockProducts.find((p) => p.id === productID);
+  if (!product) {
+    return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+  }
+
+  // 商品を返却
+  return NextResponse.json(product, { status: 200 });
 }

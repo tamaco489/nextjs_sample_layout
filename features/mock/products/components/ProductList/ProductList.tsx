@@ -1,5 +1,7 @@
 'use client';
+
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { MockProduct } from '@/app/types/products';
 import Image from 'next/image';
 
@@ -8,6 +10,9 @@ interface MockProductListProps {
 }
 
 const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
+  // routerの初期化
+  const router = useRouter();
+
   // モーダルの状態管理
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<MockProduct | null>(
@@ -19,15 +24,24 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
   };
+
   // モーダルを閉じる ※モーダルウィンドウ中の「閉じる」ボタン、及びモーダルウィンドウ外を押下された時にも呼び出される想定
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
   };
+
   // 表示されたモーダル自体をクリックされた場合はクリックイベントの伝搬を停止する
   // これがないと「closeModal」を親クラスに指定しているためモーダル内部をクリックされた場合でも閉じられてしまうため
   const handleModalClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+
+  // 商品購入ページに遷移する
+  const goToProductPurchasePage = (e: React.MouseEvent) => {
+    if (selectedProduct) {
+      router.push(`/mock/products/${selectedProduct.id}`);
+    }
   };
 
   return (
@@ -129,13 +143,29 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
               {selectedProduct.description}
             </p>
 
-            {/* モーダル閉じるボタン */}
-            <button
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500 transition"
-              onClick={closeModal}
-            >
-              閉じる
-            </button>
+            {/* ボタンの配置 */}
+            <div className="flex justify-between">
+              {/* モーダル閉じるボタン */}
+              <button
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500 transition"
+                onClick={closeModal}
+              >
+                閉じる
+              </button>
+
+              {/* 商品購入ページに遷移するボタン */}
+              <button
+                className={`px-4 py-2 rounded transition ${
+                  selectedProduct.inStock
+                    ? 'bg-green-600 text-white hover:bg-green-500'
+                    : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                }`}
+                onClick={goToProductPurchasePage}
+                disabled={!selectedProduct.inStock}
+              >
+                この商品を購入する
+              </button>
+            </div>
           </div>
         </div>
       )}
