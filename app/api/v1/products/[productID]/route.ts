@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { MockProduct } from '@/app/types/products';
 import { verifyAuthorizationHeader } from '@/library/api/validate';
 
-// モックデータ
 const mockProducts: MockProduct[] = [
   {
     id: 10000001,
@@ -34,24 +33,22 @@ const mockProducts: MockProduct[] = [
 ];
 
 // GET api/v1/products/{productID}
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { productID: string } },
+) {
   // 認証ヘッダーの検証
   const authError: NextResponse | null = verifyAuthorizationHeader(request);
   if (authError) return authError;
 
-  // 商品IDをエンドポイントから取得
-  const url = new URL(request.url);
-  const idParam = url.pathname.split('/').pop();
-  const productId = Number(idParam);
-
-  // 商品IDの検証
-  if (isNaN(productId)) {
+  // 不正なIDでないかの検証
+  const productID = Number(params.productID);
+  if (isNaN(productID)) {
     return NextResponse.json({ error: 'Invalid product ID' }, { status: 400 });
   }
 
-  // 商品を検索
-  const product = mockProducts.find((p) => p.id === productId);
-
+  // 存在する商品かの検証
+  const product = mockProducts.find((p) => p.id === productID);
   if (!product) {
     return NextResponse.json({ error: 'Product not found' }, { status: 404 });
   }
