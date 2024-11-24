@@ -28,12 +28,18 @@ class GetRequest {
     });
 
     if (!response.ok) {
-      const errorData = await response
-        .json()
-        .catch(() => ({ message: 'Unknown error' }));
+      // エラーメッセージを取得するためのヘルパー関数を定義
+      const getErrorMessage = async (): Promise<string> => {
+        try {
+          const errorData = await response.json();
+          return errorData.error || 'Unknown error';
+        } catch {
+          return 'Unknown error';
+        }
+      };
 
-      // errorData.error があればそれを使う
-      const errorMessage = errorData.error || 'Unknown error';
+      // ヘルパー関数でエラーメッセージを取得
+      const errorMessage = await getErrorMessage();
 
       throw new HTTPError(response.status, errorMessage);
     }
