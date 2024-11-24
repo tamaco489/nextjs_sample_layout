@@ -1,4 +1,5 @@
 export default function Home() {
+  const isDev = process.env.NODE_ENV === 'development';
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">ようこそ！</h1>
@@ -26,6 +27,16 @@ export default function Home() {
           からご覧ください。
         </p>
       </section>
+
+      {/* 開発環境のみ */}
+      {isDev && (
+        <a
+          href="/mock"
+          className="block mt-4 p-4 bg-yellow-100 border border-yellow-400 rounded-md no-underline text-black hover:bg-yellow-200"
+        >
+          <h3 className="text-blue-600">Mock 一覧ページに移します。</h3>
+        </a>
+      )}
     </div>
   );
 }
