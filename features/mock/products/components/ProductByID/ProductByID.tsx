@@ -54,9 +54,9 @@ const ProductByID: React.FC<MockProductProps> = ({ product }) => {
                 !product.inStock ? 'cursor-not-allowed bg-gray-300' : ''
               }`}
               disabled={!product.inStock}
-              onClick={() => alert('商品をカートに追加しました！')}
+              onClick={() => alert('商品を購入しました！')}
             >
-              {product.inStock ? 'カートに入れる' : '在庫切れ'}
+              {product.inStock ? '購入する' : '在庫切れ'}
             </button>
           </div>
         </div>
