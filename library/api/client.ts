@@ -1,5 +1,6 @@
 import { API_HOST, API_REQUEST_OPTIONS } from '@/constants/api';
-import { HTTPError } from '@/library/api/error';
+import HTTPError from '@/library/api/error';
+// import { HTTPError } from '@/library/api/error';
 
 /**
  * GET リクエストを送信するクラス
@@ -27,10 +28,14 @@ class GetRequest {
     });
 
     if (!response.ok) {
-      throw new HTTPError(
-        response.status,
-        `HTTP error Status: ${response.status}`,
-      );
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: 'Unknown error' }));
+
+      // errorData.error があればそれを使う
+      const errorMessage = errorData.error || 'Unknown error';
+
+      throw new HTTPError(response.status, errorMessage);
     }
 
     return response.json() as Promise<T>;
