@@ -47,26 +47,6 @@ class GetRequest {
     const url = `${API_HOST}${path}`;
     return this.fetchData<T>(url);
   }
-
-  /**
-   * パスパラメータを使ったGETリクエストを送信するメソッド
-   *
-   * @param {string} path                                - APIエンドポイントのパス。
-   * @param {Record<string, string | number>} pathParams - パスパラメータを含むオブジェクト。
-   * @returns {Promise<T>}                               - APIのレスポンスデータ。
-   * @throws {HTTPError}                                 - HTTPリクエストが成功しなかった場合にエラーをスローします。
-   */
-  public async withPathParameters<T>(
-    path: string,
-    pathParams: Record<string, string | number>,
-  ): Promise<T> {
-    Object.entries(pathParams).forEach(([key, value]) => {
-      path = path.replace(`:${key}`, encodeURIComponent(value));
-    });
-
-    const url = `${API_HOST}${path}`;
-    return this.fetchData<T>(url);
-  }
 }
 
 export const getRequest = new GetRequest();
