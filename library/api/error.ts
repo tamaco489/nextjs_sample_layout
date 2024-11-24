@@ -1,14 +1,9 @@
-'use client';
-
-/**
- * HTTPエラーを表現するクラス
- */
-export class HTTPError extends Error {
-  public status: number;
+export default class HTTPError extends Error {
+  status: number;
 
   constructor(status: number, message: string) {
     super(message);
     this.status = status;
-    this.name = 'HTTP Error';
+    this.name = 'HTTPError';
   }
 }
