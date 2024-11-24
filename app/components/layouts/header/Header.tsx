@@ -1,9 +1,21 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 const Header = () => {
+  const router = useRouter();
+  const handleLogoClick = () => {
+    router.push('/');
+  };
+
   return (
     <header className="flex justify-between items-center p-4 bg-blue-600 text-white">
-      <div className="text-2xl font-bold">Company Name</div>
+      <div
+        className="text-2xl font-bold hover:cursor-pointer"
+        onClick={handleLogoClick}
+      >
+        Company Name
+      </div>
       <nav className="flex-grow">
         <ul className="flex space-x-6 justify-center">
           <li>
@@ -38,7 +50,7 @@ const Header = () => {
           Sign Up
         </a>
       </div>
-      </header>
+    </header>
   );
 };
 
