@@ -1,20 +1,10 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
-
 const Header = () => {
-  const router = useRouter();
-  const handleLogoClick = () => {
-    router.push('/');
-  };
-
   return (
     <header className="flex justify-between items-center p-4 bg-blue-600 text-white">
-      <div
-        className="text-2xl font-bold hover:cursor-pointer"
-        onClick={handleLogoClick}
-      >
-        Company Name
+      <div className="text-2xl font-bold hover:cursor-pointer">
+        <a href="/" className="hover:text-gray-300">
+          Company Name
+        </a>
       </div>
       <nav className="flex-grow">
         <ul className="flex space-x-6 justify-center">
