@@ -145,6 +145,7 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
 
             {/* ボタンの配置 */}
             <div className="flex justify-between">
+              {/* モーダル閉じるボタン */}
               <button
                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500 transition"
                 onClick={closeModal}
@@ -152,9 +153,15 @@ const ProductList: React.FC<MockProductListProps> = ({ productList }) => {
                 閉じる
               </button>
 
+              {/* 商品購入ページに遷移するボタン */}
               <button
-                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500 transition"
+                className={`px-4 py-2 rounded transition ${
+                  selectedProduct.inStock
+                    ? 'bg-green-600 text-white hover:bg-green-500'
+                    : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                }`}
                 onClick={goToProductPurchasePage}
+                disabled={!selectedProduct.inStock}
               >
                 この商品を購入する
               </button>
