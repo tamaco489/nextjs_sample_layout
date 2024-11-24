@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { API_KEY } from '@/constants/api';
 import { MockProduct } from '@/app/types/products';
+import { verifyAuthorizationHeader } from '@/library/api/validate';
 
 const mockProductList: MockProduct[] = [
   {
-    id: 1,
+    id: 10000001,
     name: 'Laptop',
     price: 1000,
     inStock: true,
@@ -13,7 +13,7 @@ const mockProductList: MockProduct[] = [
     imageUrl: '/mock/products/10000001.jpg',
   },
   {
-    id: 2,
+    id: 10000002,
     name: 'Headphones',
     price: 200,
     inStock: false,
@@ -22,7 +22,7 @@ const mockProductList: MockProduct[] = [
     imageUrl: '/mock/products/10000002.png',
   },
   {
-    id: 3,
+    id: 10000003,
     name: 'Smartphone',
     price: 800,
     inStock: true,
@@ -35,13 +35,9 @@ const mockProductList: MockProduct[] = [
 
 // GET api/v1/products
 export async function GET(request: NextRequest) {
-  const authToken = request.headers.get('Authorization');
-  if (authToken !== `Bearer ${API_KEY}`) {
-    return NextResponse.json(
-      { error: 'Missing Authorization token' },
-      { status: 401 },
-    );
-  }
+  // 認証ヘッダーの検証
+  const authError: NextResponse | null = verifyAuthorizationHeader(request);
+  if (authError) return authError;
 
   return NextResponse.json(mockProductList, { status: 200 });
 }
