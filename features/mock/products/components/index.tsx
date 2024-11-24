@@ -1,3 +1,4 @@
+import ProductByID from './ProductByID/ProductByID';
 import ProductList from './ProductList/ProductList';
 
-export { ProductList };
+export { ProductByID, ProductList };
